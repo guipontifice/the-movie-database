@@ -34,6 +34,9 @@ export default {
       "white": "#ffffff",
       "gray": "#a6a6a6",
       "purple": "#17162E",
+      "purple-shadow": "#100f20",
+      "light-purple": "#201e3f",
+      "light-gray": "#c9c9c9"
     },
   },
 

@@ -1,42 +1,67 @@
-import React, { useState } from 'react'
+import React, { startTransition, useState } from 'react'
 import apiKey from "../assets/environment/apiKey"
 import { useEffect } from 'react'
+import heartImg from '../assets/images/heart.svg'
+import starImg from '../assets/images/star.png'
+
 function RenderMovie() {
+    const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
-    try {
-        const apiKeyValue = apiKey();
+    const [currentPage, setCurrentPage] = useState(1);
 
-        const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKeyValue}&language=en-US&page=1`;
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const apiKeyValue = apiKey();
+                const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKeyValue}&language=en-US&page=${currentPage}`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
                 setMovieData(data.results);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    } catch (error) {
-        console.error('Error getting API key:', error);
-    }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
+        fetchMovies();
+    }, [currentPage])
+
+    const nextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prevPage) => prevPage - 1)
+        }
+    }
     return (
         <div className='text-white'>
             {movieData.map((movie) => (
                 <div key={movie.id} className='flex justify-center'>
-                    <div className='border-2 m-10 w-10/12'>
-                        <div className='flex justify-between'>
-                            <div className='flex justify-start  w-6/12'>
+                    <div className='shadow-xl bg-light-purple border-purple-shadow rounded-lg m-10 w-10/12'>
+                        <div className='flex justify-between p-4 items-center'>
+                            <div className='flex justify-start mt-6 ml-5 w-6/12'>
                                 <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} className='w-28 h-28 rounded-full' />
                                 <div>
-                                    <h2 className='ml-5'>{movie.title}</h2>
-                                    <img src='../assets/images/heart-fill.svg' className='w-6' />
+                                    <h1 className='ml-5 text-xl font-bold'>{movie.title}</h1>
+                                    <div className='flex ml-1 mt-5 text-sm font-medium'>
+                                        <img src={heartImg} className='w-6 mx-3' /> Favorite
+                                        <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
+                                    </div>
                                 </div>
                             </div>
-                            <div className='w-6/12'>
-                                <p>{movie.overview}</p>
+                            <div className='flex w-6/12'>
+                                <p className='flex justify-center text-lg font-thin text-light-gray'>{movie.overview}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             ))}
+            <div>
+                <ion-icon name="chevron-back-outline"></ion-icon>
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+            </div>
         </div>
     )
 }

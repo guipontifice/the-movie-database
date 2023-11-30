@@ -3,7 +3,7 @@ import Header from './pages/Header'
 import Home from './pages/Home'
 function App() {
   return (
-    <div className='bg-purple'>
+    <div className='h-full bg-purple'>
       <Header />
       <Home />
     </div>
