@@ -33,7 +33,7 @@ export default {
     colors: {
       "white": "#ffffff",
       "gray": "#a6a6a6",
-      "purple": "#33215C",
+      "purple": "#17162E",
     },
   },
 
