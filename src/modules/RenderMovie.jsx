@@ -1,14 +1,14 @@
-import React, { startTransition, useState } from 'react'
+import React, { useState } from 'react'
 import apiKey from "../assets/environment/apiKey"
 import { useEffect } from 'react'
 import heartImg from '../assets/images/heart.svg'
+import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
-
 function RenderMovie() {
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [favoriteMovies, setFavoriteMovies] = useState([])
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -35,6 +35,20 @@ function RenderMovie() {
             setCurrentPage((prevPage) => prevPage - 1)
         }
     }
+
+    const toggleFavorite = (movie) => {
+        setFavoriteMovies((prevFavorites) => {
+            const isFavorited = prevFavorites.some((favMovie) => favMovie.id === movie.id);
+
+            const updatedFavorites = isFavorited
+                ? prevFavorites.filter((favMovie) => favMovie.id !== movie.id)
+                : [...prevFavorites, movie];
+
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+
+            return updatedFavorites;
+        });
+    };
     return (
         <div className='text-white'>
             {movieData.map((movie) => (
@@ -46,7 +60,10 @@ function RenderMovie() {
                                 <div>
                                     <h1 className='ml-5 text-xl font-bold'>{movie.title}</h1>
                                     <div className='flex ml-1 mt-5 text-sm font-medium'>
-                                        <img src={heartImg} className='w-6 mx-3' /> Favorite
+                                        <img src={favoriteMovies.includes(movie.id) ? heartFillImg : heartImg}
+                                            className='w-6 mx-3'
+                                            onClick={() => toggleFavorite(movie.id)}
+                                        /> {favoriteMovies.includes(movie.id) ? 'Favorite' : ''}
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>
                                 </div>
