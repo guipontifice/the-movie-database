@@ -37,18 +37,21 @@ function RenderMovie() {
     }
 
     const toggleFavorite = (movie) => {
-        setFavoriteMovies((prevFavorites) => {
-            const isFavorited = prevFavorites.some((favMovie) => favMovie.id === movie.id);
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isMovieInFavorites = favorites.includes(movie.id);
 
-            const updatedFavorites = isFavorited
-                ? prevFavorites.filter((favMovie) => favMovie.id !== movie.id)
-                : [...prevFavorites, movie];
-
+        if (isMovieInFavorites) {
+            const updatedFavorites = favorites.filter((id) => id !== movie.id);
+            setFavoriteMovies(updatedFavorites);
             localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-
-            return updatedFavorites;
-        });
-    };
+        } else {
+            favorites.push(movie.id);
+            setFavoriteMovies(favorites)
+            localStorage.setItem('favorites', JSON.stringify(favorites))
+        }
+        setFavoriteMovies(favorites)
+        // const favorite = localStorage.setItem('favorite', JSON.stringify(movie.id));
+    }
     return (
         <div className='text-white'>
             {movieData.map((movie) => (
@@ -62,7 +65,7 @@ function RenderMovie() {
                                     <div className='flex ml-1 mt-5 text-sm font-medium'>
                                         <img src={favoriteMovies.includes(movie.id) ? heartFillImg : heartImg}
                                             className='w-6 mx-3'
-                                            onClick={() => toggleFavorite(movie.id)}
+                                            onClick={() => toggleFavorite(movie)}
                                         /> {favoriteMovies.includes(movie.id) ? 'Favorite' : ''}
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>
