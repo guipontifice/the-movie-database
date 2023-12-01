@@ -8,7 +8,8 @@ function RenderMovie() {
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [favoriteMovies, setFavoriteMovies] = useState([])
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const [favoriteStatus, setFavoritedStatus] = useState({})
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -36,19 +37,41 @@ function RenderMovie() {
         }
     }
 
-    const toggleFavorite = (movie) => {
-        setFavoriteMovies((prevFavorites) => {
-            const isFavorited = prevFavorites.some((favMovie) => favMovie.id === movie.id);
-
-            const updatedFavorites = isFavorited
-                ? prevFavorites.filter((favMovie) => favMovie.id !== movie.id)
-                : [...prevFavorites, movie];
-
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-
-            return updatedFavorites;
+    const handleToggleFavorites = () => {
+        setShowFavorites(!showFavorites);
+        setCurrentPage(1)
+    }
+    const getFavoriteMovie = () => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    }
+    const isMovieFavorited = (movie) => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        return favorites.some((favorite) => favorite.title === movie.title);
+    }
+    useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoriteStatusMap = {};
+        favorites.forEach((favorite) => {
+            favoriteStatusMap[favorite.title] = true
         });
-    };
+        setFavoritedStatus(favoriteStatusMap)
+    })
+    const handleFavoriteMovie = (movie) => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        const isMovieInFavorites = favorites.some((movie) => favoriteMovies.title === movie.title)
+        if (!isMovieInFavorites) {
+            favorites.push(movie);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        } else {
+            const updatedFavorites = favorites.filter((favorite) => favorite.title !== movie.title);
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+        }
+        setFavoritedStatus((prevStatus) => ({
+            ...prevStatus,
+            [movie.title]: !isMovieInFavorites,
+        }));
+    }
     return (
         <div className='text-white'>
             {movieData.map((movie) => (
@@ -61,8 +84,8 @@ function RenderMovie() {
                                     <h1 className='ml-5 text-xl font-bold'>{movie.title}</h1>
                                     <div className='flex ml-1 mt-5 text-sm font-medium'>
                                         <img src={favoriteMovies.includes(movie.id) ? heartFillImg : heartImg}
-                                            className='w-6 mx-3'
-                                            onClick={() => toggleFavorite(movie.id)}
+                                            className='w-6 mx-3 cursor-pointer'
+                                            onClick={() => handleFavoriteMovie(movie)}
                                         /> {favoriteMovies.includes(movie.id) ? 'Favorite' : ''}
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>
