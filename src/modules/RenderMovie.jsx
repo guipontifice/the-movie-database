@@ -37,20 +37,9 @@ function RenderMovie() {
     }
 
     const toggleFavorite = (movie) => {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const isMovieInFavorites = favorites.includes(movie.id);
-
-        if (isMovieInFavorites) {
-            const updatedFavorites = favorites.filter((id) => id !== movie.id);
-            setFavoriteMovies(updatedFavorites);
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-        } else {
-            favorites.push(movie.id);
-            setFavoriteMovies(favorites)
-            localStorage.setItem('favorites', JSON.stringify(favorites))
-        }
-        setFavoriteMovies(favorites)
-        // const favorite = localStorage.setItem('favorite', JSON.stringify(movie.id));
+        console.log(movie.id);
+        let favorites = []
+        const isMovieInFavorites =favorites.includes(movie.id) 
     }
     return (
         <div className='text-white'>
