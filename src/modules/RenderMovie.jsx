@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
-function RenderMovie() {
+import { getFavoritedMovies } from './Favorites'
+function RenderMovie(movie) {
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,11 +37,6 @@ function RenderMovie() {
         }
     }
 
-    const toggleFavorite = (movie) => {
-        console.log(movie.id);
-        let favorites = []
-        const isMovieInFavorites =favorites.includes(movie.id) 
-    }
     return (
         <div className='text-white'>
             {movieData.map((movie) => (
@@ -54,7 +50,7 @@ function RenderMovie() {
                                     <div className='flex ml-1 mt-5 text-sm font-medium'>
                                         <img src={favoriteMovies.includes(movie.id) ? heartFillImg : heartImg}
                                             className='w-6 mx-3'
-                                            onClick={() => toggleFavorite(movie)}
+                                            onClick={(event) => getFavoritedMovies(event, movie) }
                                         /> {favoriteMovies.includes(movie.id) ? 'Favorite' : ''}
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>

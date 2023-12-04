@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { inputBox } from '../modules/Favorites'
 function Header() {
     return (
         <div className='border border-purple h-40 text-white'>
@@ -12,7 +12,7 @@ function Header() {
                 </div>
                 <div className='flex justify-center align center mb-1'>
                     <p className='flex justify-center mx-2'>Only show my favorite movies</p>
-                    <input type="radio" value='' />
+                    <input type="radio" value='' checked={inputBox} />
                 </div>
             </header>
         </div>
