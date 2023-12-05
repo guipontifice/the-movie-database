@@ -5,7 +5,6 @@ import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite } from './Favorites'
-import { inputBox } from './SearchMovies'
 function RenderMovie(movie) {
     const isFavorited = checkFavorite()
     const MOVIES_PER_PAGE = 10;

@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
-import { inputBox } from '../modules/SearchMovies'
 import RenderMovie from '../modules/RenderMovie';
+import SearchMovieById from '../modules/SearchMovieById';
 function Header() {
     const [movieData, setMovieData] = useState([]);
-    const handleRadioClick = () => {
-        inputBox(setMovieData)
+    const [title, setTitle] = useState();
+    const [showFavoritesOnly, setShowFavoritesOnly] = useState();
+    const handleToggleFavorites = () => {
+        setShowFavoritesOnly(!showFavoritesOnly);
     }
+    const renderComponent = () => {
+        if (showFavoritesOnly) {
+            return <RenderMovie />;
+        } else {
+            return <SearchMovieById />;
+        }
+    };
     return (
         <div className='border border-purple h-40 text-white'>
             <header className='h-full'>
@@ -16,11 +25,10 @@ function Header() {
                     <input type="text" placeholder='Search for a Movie' className='border-2 rounded-md border-gray bg-gray text-white flex justify-center h-10 w-8/12' />
                 </div>
                 <div className='flex justify-center align center mb-1'>
-                    <p className='flex justify-center mx-2'>Only show my favorite movies</p>
-                    <input type="radio" value='' onClick={handleRadioClick} />
-                </div>
-                <RenderMovie movieData={movieData} />
+                    <p className='flex justify-center mx-2 hover:border rounded p-1 border-gray hover:border-white' onClick={handleToggleFavorites}>{showFavoritesOnly ? 'Only show my favorite movies' : 'Show Popular Movies'}</p>
+                </div>  
             </header>
+            {renderComponent()}
         </div>
     )
 }
