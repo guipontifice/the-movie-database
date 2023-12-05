@@ -4,12 +4,13 @@ import { useEffect } from 'react'
 import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
-import { getFavoritedMovies } from './Favorites'
+import { getFavoritedMovies, checkFavorite } from './Favorites'
+import { inputBox } from './SearchMovies'
 function RenderMovie(movie) {
+    const isFavorited = checkFavorite()
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [favoriteMovies, setFavoriteMovies] = useState([])
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -48,10 +49,10 @@ function RenderMovie(movie) {
                                 <div>
                                     <h1 className='ml-5 text-xl font-bold'>{movie.title}</h1>
                                     <div className='flex ml-1 mt-5 text-sm font-medium'>
-                                        <img src={favoriteMovies.includes(movie.id) ? heartFillImg : heartImg}
+                                        <img src={isFavorited.includes(movie.id) ? heartFillImg : heartImg}
                                             className='w-6 mx-3'
-                                            onClick={(event) => getFavoritedMovies(event, movie) }
-                                        /> {favoriteMovies.includes(movie.id) ? 'Favorite' : ''}
+                                            onClick={(event) => getFavoritedMovies(event, movie)}
+                                        /> 
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>
                                 </div>

@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import { inputBox } from '../modules/Favorites'
+import { inputBox } from '../modules/SearchMovies'
+import RenderMovie from '../modules/RenderMovie';
 function Header() {
+    const [movieData, setMovieData] = useState([]);
+    const handleRadioClick = () => {
+        inputBox(setMovieData)
+    }
     return (
         <div className='border border-purple h-40 text-white'>
             <header className='h-full'>
@@ -12,8 +17,9 @@ function Header() {
                 </div>
                 <div className='flex justify-center align center mb-1'>
                     <p className='flex justify-center mx-2'>Only show my favorite movies</p>
-                    <input type="radio" value='' checked={inputBox} />
+                    <input type="radio" value='' onClick={handleRadioClick} />
                 </div>
+                <RenderMovie movieData={movieData} />
             </header>
         </div>
     )

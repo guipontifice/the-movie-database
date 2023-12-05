@@ -1,35 +1,22 @@
 import RenderMovie from "./RenderMovie";
 import apiKey from "../assets/environment/apiKey";
+import { useState, useEffect } from "react";
 
-const inputBox = document.querySelector('input[type="radio"]');
 
-
-function inputBox() {
-    const [favoriteChecked, setFavoriteChecked] = useState(false)
-    const handleCheckboxChange = () => {
-        setFavoriteChecked(!favoriteChecked)
-}
-    if (isChecked) {
-        cleanAllMovies();
-        const favorites = saveFavoriteMovies()
-        favorites.forEach(movie => searchMovieId(movie));
-    } else if (!isChecked) {
-        cleanAllMovies();
-        RenderMovie()
-    }
-}
 async function searchMovieId(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey()}&language=en-US`;
     const fetchResponse = await fetch(url);
     const movieData = await fetchResponse.json();
-    return RenderMovie(movieData)
+    return movieData
 }
 
 
 function getFavoritedMovies(event, movie) {
+    console.log('We are here')
+    console.log(event.target)
     const favoriteState = {
-        favorited: '../assets/images/heart-fill.svg',
-        notFavorited: '../assets/images/heart.svg'
+        favorited: 'http://localhost:3005/src/assets/images/heart-fill.svg',
+        notFavorited: 'http://localhost:3005/src/assets/images/heart.svg'
     };
     if (event.target.src === favoriteState.notFavorited) {
         event.target.src = favoriteState.favorited;
@@ -54,11 +41,12 @@ function removeFromLocalStorage(movie) {
     }
 }
 function saveToLocalStorage(movie) {
-    const movies = saveFavoriteMovies();
+    let movies = saveFavoriteMovies();
     console.log(movies)
-    if (movies !== null) {
-        movies.push(movie.id)
+    if (!Array.isArray(movies) || movies === null) {
+        movies = [];
     }
+    movies.push(movie.id)
     const newMovies = [...new Set(movies)];
     const moviesJSON = JSON.stringify(newMovies);
     return localStorage.setItem('favorites', moviesJSON);
@@ -71,10 +59,10 @@ function saveFavoriteMovies() {
 function checkFavorite() {
     const checkJSON = JSON.parse(localStorage.getItem('favorites'));
     let newCheckJSON = [];
-    if (checkJSON) {
+    if (Array.isArray(checkJSON)) {
         newCheckJSON.push(...checkJSON);
     }
     return newCheckJSON;
 }
 
-export { getFavoritedMovies, checkFavorite, inputBox }
+export { getFavoritedMovies, checkFavorite, searchMovieId, saveFavoriteMovies }
