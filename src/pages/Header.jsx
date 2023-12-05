@@ -3,6 +3,7 @@ import { inputBox } from '../modules/SearchMovies'
 import RenderMovie from '../modules/RenderMovie';
 function Header() {
     const [movieData, setMovieData] = useState([]);
+
     const handleRadioClick = () => {
         inputBox(setMovieData)
     }
