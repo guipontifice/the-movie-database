@@ -29,11 +29,13 @@ function RenderMovie(movie) {
 
     const nextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
+        window.scrollTo({ top: 5, behavior: 'smooth' })
     };
 
     const prevPage = () => {
         if (currentPage > 1) {
             setCurrentPage((prevPage) => prevPage - 1)
+            window.scrollTo({ top: 5, behavior: 'smooth' })
         }
     }
 
@@ -51,7 +53,7 @@ function RenderMovie(movie) {
                                         <img src={isFavorited.includes(movie.id) ? heartFillImg : heartImg}
                                             className='w-6 mx-3'
                                             onClick={(event) => getFavoritedMovies(event, movie)}
-                                        /> 
+                                        />
                                         <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
                                     </div>
                                 </div>
@@ -63,9 +65,13 @@ function RenderMovie(movie) {
                     </div>
                 </div>
             ))}
-            <div>
-                <ion-icon name="chevron-back-outline"></ion-icon>
-                <ion-icon name="chevron-forward-outline"></ion-icon>
+            <div className='flex justify-center'>
+                <div onClick={prevPage}>
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                </div>
+                <div onClick={nextPage}>
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </div>
             </div>
         </div>
     )

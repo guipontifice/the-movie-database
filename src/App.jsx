@@ -3,7 +3,7 @@ import Header from './pages/Header'
 import RenderMovie from './modules/RenderMovie'
 function App() {
   return (
-    <div className='h-full bg-purple'>
+    <div className='bg-purple min-h-screen'>
       <Header />
     </div>
   )
