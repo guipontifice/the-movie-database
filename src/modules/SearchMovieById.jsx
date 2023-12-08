@@ -44,7 +44,7 @@ function SearchMovieById({ }) {
                                         <h1 className='ml-5 text-xl font-bold'>{movie.title}</h1>
                                         <div className='flex ml-1 mt-5 text-sm font-medium'>
                                             <img src={movies.includes(movie.id) ? heartFillImg : heartImg}
-                                                className='w-6 mx-3'
+                                                className='w-6 mx-3 cursor-pointer'
                                                 onClick={(event) => getFavoritedMovies(event, movie)}
                                             />
                                             <img src={starImg} className='w-6 mx-3' /> {movie.vote_average.toFixed(1)}
