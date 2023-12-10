@@ -5,19 +5,30 @@ import heartFillImg from '../assets/images/heart-fill.svg';
 import starImg from '../assets/images/star.png';
 
 async function searchMovieName(movieTitle) {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=1`
-    const fetchResponse = await fetch(url)
-    const { results } = await fetchResponse.json()
-    return results
+    const fetchResponse = await fetch(url);
+    const { results } = await fetchResponse.json();
+    return results;
 }
 
 function searchMoviesByName(movieTitle) {
     const [movieData, setMovieData] = useState();
+    const [data, setData] = useState([]);
+    const [filterData, setFilterData] = useState([]);
+    const handleFilter = (value) => {
+        const res = filterData.filter(movie => movie.title.toLowerCase().includes(value))
+    }
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const data = await searchMovieName(movieTitle)
-                setMovieData(data.results);
+                const promises = movies.map(async (movieId) => {
+                    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=1`
+                    const fetchResponse = await fetch(url);
+                    const data = await fetchResponse.json();
+                    return data;
+                });
+
+                const movieDetails = await Promise.all(promises);
+                setMovieData(movieDetails);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
