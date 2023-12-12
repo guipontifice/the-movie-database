@@ -7,6 +7,7 @@ import searchEngine from './searchEngine';
 
 function SearchMoviesByName({ movieTitle }) {
     const movies = searchEngine(movieTitle)
+    console.log('Movies: ',movies)
     return (
         <>
             <div className='text-white'>

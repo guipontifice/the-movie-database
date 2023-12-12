@@ -7,6 +7,7 @@ import searchEngine from '../modules/searchEngine';
 
 function Header() {
     const [title, setTitle] = useState('');
+    const [wordEntered, setWordEntered] = useState('');
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
     const handleToggleFavorites = () => {
         setShowFavoritesOnly(!showFavoritesOnly);
@@ -15,20 +16,20 @@ function Header() {
         if (showFavoritesOnly) {
             return (<div className='bg-purple min-w-full'><RenderMovie /></div>);
         } else if (!showFavoritesOnly) {
-            return (<div className='bg-purple'><SearchMovieById movieTitle={title} /></div>);
-        } else if (title !== '') {
-            return (<div className='bg-purple'><SearchMoviesByName /></div>);
+            return (<div className='bg-purple'><SearchMovieById /></div>);
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const searchTerm = event.target.value;
         try {
-            const results = await searchEngine(event.target.value)
-            setTitle(results[0].title);
+            const results = await searchEngine(searchTerm);
+            setTitle(results);
         } catch (error) {
-            console.error('Error searching:', error)
+            console.error('Error searching:', error);
         }
+
     };
     return (
         <div className='bg-purple border border-purple h-40 text-white'>
