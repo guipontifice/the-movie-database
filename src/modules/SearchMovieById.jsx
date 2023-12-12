@@ -21,7 +21,6 @@ function SearchMovieById({ }) {
 
                 const movieDetails = await Promise.all(promises);
                 setMovieData(movieDetails);
-                console.log('Fetched data:', movieDetails);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
