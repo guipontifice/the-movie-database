@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import apiKey from "../assets/environment/apiKey";
-async  function SearchMovie(currentPage) {
+async function SearchMovie(currentPage) {
     try {
         const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
@@ -16,5 +16,23 @@ async  function SearchMovie(currentPage) {
         return [];
     }
 }
+async function SearchTitle(movieTitle) {
+    console.log(movieTitle);
+    try {
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=1`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-export default SearchMovie
+        const data = await response.json();
+        console.log("API URL:", url);  // Log the URL directly
+        console.log(data.results);
+        return data.results;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+export { SearchMovie, SearchTitle }

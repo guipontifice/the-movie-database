@@ -5,8 +5,8 @@ import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite, searchMovieId } from './Favorites'
-import SearchMovie from './SearchMovie'
-function RenderMovie({ fetchType }) {
+import {SearchMovie, SearchTitle} from './SearchMovie'
+function RenderMovie({ fetchType, results }) {
     const isFavorited = checkFavorite()
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
@@ -23,16 +23,18 @@ function RenderMovie({ fetchType }) {
                     data = await Promise.all(fetchDataArray);
                 } else if (fetchType === 'popular'){
                     data = await SearchMovie(currentPage);
+                } else if (fetchType === 'name'){
+                    data = await SearchTitle(results)
                 }
 
-                console.log("API URL:", data.config?.url);
-                setMovieData(data);
+                console.log("API URL:", data);
+                setMovieData(data.flat());
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, [currentPage, fetchType]);
+    }, [currentPage, fetchType, results]);
 
     const nextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
