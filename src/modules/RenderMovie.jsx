@@ -5,8 +5,9 @@ import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite, searchMovieId } from './Favorites'
-import {SearchMovie, SearchTitle} from './SearchMovie'
-function RenderMovie({ fetchType, results }) {
+import { SearchMovie, SearchTitle } from './SearchMovie'
+
+function RenderMovie({ fetchType, title }) {
     const isFavorited = checkFavorite()
     const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
@@ -21,20 +22,21 @@ function RenderMovie({ fetchType, results }) {
                         return await searchMovieId(movieId);
                     });
                     data = await Promise.all(fetchDataArray);
-                } else if (fetchType === 'popular'){
+                } else if (fetchType === 'popular') {
                     data = await SearchMovie(currentPage);
-                } else if (fetchType === 'name'){
-                    data = await SearchTitle(results)
+                } else if (fetchType !== 'favorites' && fetchType !== 'popular') {
+                    // Use the first element of the array since you are fetching a single title
+                    data = await SearchTitle(title);
+                    return data
                 }
-
-                console.log("API URL:", data);
-                setMovieData(data.flat());
+                console.log('API URL:', data);
+                setMovieData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, [currentPage, fetchType, results]);
+    }, [currentPage, fetchType, title]);
 
     const nextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);

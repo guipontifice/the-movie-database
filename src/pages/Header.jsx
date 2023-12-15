@@ -9,25 +9,26 @@ function Header() {
         setShowFavoritesOnly(!showFavoritesOnly);
     }
     const renderComponent = () => {
-        if (!showFavoritesOnly) {
-            return (<div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} /></div>);
+        if (title) {
+            return <div className='bg-purple'><RenderMovie fetchType={'name'} title={title} /></div>;
+        } else if (!showFavoritesOnly) {
+            return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} /></div>;
         } else if (showFavoritesOnly) {
-            return (<div className='bg-purple'><RenderMovie fetchType={'favorites'} /></div>);
-        } else if (title) {
-            return (<div className='bg-purple'><RenderMovie fetchType={'name'} results={title} /></div>)
+            return <div className='bg-purple'><RenderMovie fetchType={'favorites'} /></div>;
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const searchTerm = event.target.elements.searchTerm.value
+        const searchTerm = event.target.elements.searchTerm.value;
+    
         try {
-            const results = await SearchTitle(searchTerm);
-            setTitle(results);
+          const results = await SearchTitle(searchTerm);
+          setTitle(results.map(movie => movie.title));
         } catch (error) {
-            console.error('Error searching:', error);
+          console.error('Error searching:', error);
         }
-    };
+      };
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }

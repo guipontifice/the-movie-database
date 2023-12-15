@@ -10,6 +10,7 @@ async function SearchMovie(currentPage) {
         const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
+
         return data.results;
     } catch (error) {
         console.error('Error fetching data:', error);
