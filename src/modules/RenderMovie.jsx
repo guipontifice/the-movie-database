@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import apiKey from "../assets/environment/apiKey"
 import { useEffect } from 'react'
 import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
@@ -17,20 +16,20 @@ function RenderMovie({ fetchType, title }) {
         const fetchData = async () => {
             try {
                 let data;
-                if (fetchType === 'favorites') {
+                if (fetchType === 'name') {
+                    data = await SearchTitle(title)
+                }
+                else if (fetchType === 'favorites') {
                     const fetchDataArray = isFavorited.map(async (movieId) => {
                         return await searchMovieId(movieId);
                     });
                     data = await Promise.all(fetchDataArray);
                 } else if (fetchType === 'popular') {
                     data = await SearchMovie(currentPage);
-                } else if (fetchType !== 'favorites' && fetchType !== 'popular') {
-                    // Use the first element of the array since you are fetching a single title
-                    data = await SearchTitle(title);
-                    return data
                 }
                 console.log('API URL:', data);
                 setMovieData(data);
+                console.log('MovieData: ', data)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

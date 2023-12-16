@@ -17,18 +17,24 @@ function Header() {
             return <div className='bg-purple'><RenderMovie fetchType={'favorites'} /></div>;
         }
     };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const searchTerm = event.target.elements.searchTerm.value;
-    
-        try {
-          const results = await SearchTitle(searchTerm);
-          setTitle(results.map(movie => movie.title));
-        } catch (error) {
-          console.error('Error searching:', error);
-        }
-      };
+const handleSubmit = (event) => {
+    event.preventDefault()
+    setTitle(`${event.target.elements.searchTerm.value}`);
+}
+    // const handleSubmit = async (event) => {
+    //     console.log(event)
+    //     event.preventDefault()
+    //     const searchTerm = event.target.elements.searchTerm.value;
+    //     try {
+    //         const results = await SearchTitle(searchTerm);
+    //         const titles = results.map(movie => movie.title)
+    //         setTitle(titles);
+    //         console.log('This is:', titles)
+    //         renderComponent(titles)
+    //     } catch (error) {
+    //         console.error('Error searching:', error);
+    //     }
+    // };
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }
