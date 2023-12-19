@@ -17,24 +17,10 @@ function Header() {
             return <div className='bg-purple'><RenderMovie fetchType={'favorites'} /></div>;
         }
     };
-const handleSubmit = (event) => {
-    event.preventDefault()
-    setTitle(`${event.target.elements.searchTerm.value}`);
-}
-    // const handleSubmit = async (event) => {
-    //     console.log(event)
-    //     event.preventDefault()
-    //     const searchTerm = event.target.elements.searchTerm.value;
-    //     try {
-    //         const results = await SearchTitle(searchTerm);
-    //         const titles = results.map(movie => movie.title)
-    //         setTitle(titles);
-    //         console.log('This is:', titles)
-    //         renderComponent(titles)
-    //     } catch (error) {
-    //         console.error('Error searching:', error);
-    //     }
-    // };
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        setTitle(`${event.target.elements.searchTerm.value}`);
+    }
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }
@@ -42,7 +28,7 @@ const handleSubmit = (event) => {
         <div className='bg-purple border border-purple h-40 text-white'>
             <header className='h-full'>
                 <div className='flex justify-center m-2'>
-                    <h1 className='font-bold text-2xl'>Popular Movies</h1>
+                    <h1 className='font-bold text-2xl' onClick={handleSubmit}>The Movie Database</h1>
                 </div>
                 <div className='flex justify-center m-5'>
                     <form onSubmit={handleSubmit} className='relative flex w-8/12'>

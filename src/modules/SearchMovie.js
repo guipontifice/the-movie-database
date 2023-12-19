@@ -18,10 +18,10 @@ async function SearchMovie(currentPage) {
         return [];
     }
 }
-async function SearchTitle(movieTitle) {
+async function SearchTitle(movieTitle, currentPage) {
     console.log("Search Title:", movieTitle);
     try {
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=${currentPage}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -29,16 +29,16 @@ async function SearchTitle(movieTitle) {
         }
 
         const data = await response.json();
-        console.log("API URL:", url);
-        console.log("API Response:", data);
+        // console.log("API URL:", url);
+        // console.log("API Response:", data);
 
         // Check the structure of data.results
         if (!data.results || !Array.isArray(data.results)) {
-            console.error("Invalid results structure:", data.results);
+            // console.error("Invalid results structure:", data.results);
 
             throw new Error("Invalid results structure");
         }
-        console.log('Data results:', data.results)
+        // console.log('Data results:', data.results)
         return data.results;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -46,4 +46,16 @@ async function SearchTitle(movieTitle) {
     }
 }
 
+async function SearchGender(currentPage) {
+    try {
+        const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        return data.results;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
 export { SearchMovie, SearchTitle }

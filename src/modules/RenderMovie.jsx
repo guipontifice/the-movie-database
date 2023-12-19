@@ -8,7 +8,6 @@ import { SearchMovie, SearchTitle } from './SearchMovie'
 
 function RenderMovie({ fetchType, title }) {
     const isFavorited = checkFavorite()
-    const MOVIES_PER_PAGE = 10;
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -17,9 +16,8 @@ function RenderMovie({ fetchType, title }) {
             try {
                 let data;
                 if (fetchType === 'name') {
-                    data = await SearchTitle(title)
-                }
-                else if (fetchType === 'favorites') {
+                    data = await SearchTitle(title, currentPage)
+                } else if (fetchType === 'favorites') {
                     const fetchDataArray = isFavorited.map(async (movieId) => {
                         return await searchMovieId(movieId);
                     });
@@ -27,13 +25,14 @@ function RenderMovie({ fetchType, title }) {
                 } else if (fetchType === 'popular') {
                     data = await SearchMovie(currentPage);
                 }
-                console.log('API URL:', data);
+                // console.log('API URL:', data);
                 setMovieData(data);
-                console.log('MovieData: ', data)
+                // console.log('MovieData: ', data)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
+        console.log(fetchType)
         fetchData();
     }, [currentPage, fetchType, title]);
 
