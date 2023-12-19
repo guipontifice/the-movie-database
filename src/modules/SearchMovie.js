@@ -1,11 +1,8 @@
-// Aqui, seria feito os links necessários para puxar a renderização dos filmes
-// E para cada resultado dos filmes, seria feito a renderização particular.
-//Porém no meu rendermovie, os links estão dentro do arquivo
-// É necessário separar os fetches.
-
 import React, { useState, useEffect } from "react";
 import apiKey from "../assets/environment/apiKey";
 import handleSubmit from "../pages/Header";
+// https://api.themoviedb.org/3/movie/upcoming?api_key={API_KEY}
+
 async function SearchMovie(currentPage) {
     try {
         const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
@@ -45,10 +42,10 @@ async function SearchTitle(movieTitle, currentPage) {
         return [];
     }
 }
-
+// https://api.themoviedb.org/3/genre/movie/list?api_key=7da6086803a787193c9595415c04178b&language=en-US&page=1
 async function SearchGender(currentPage) {
     try {
-        const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
+        const apiUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey()}language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
 

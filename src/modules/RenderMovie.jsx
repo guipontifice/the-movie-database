@@ -6,7 +6,7 @@ import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite, searchMovieId } from './Favorites'
 import { SearchMovie, SearchTitle } from './SearchMovie'
 
-function RenderMovie({ fetchType, title }) {
+function RenderMovie({ fetchType, title, resetSearchStatus }) {
     const isFavorited = checkFavorite()
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +27,7 @@ function RenderMovie({ fetchType, title }) {
                 }
                 // console.log('API URL:', data);
                 setMovieData(data);
+                resetSearchStatus();
                 // console.log('MovieData: ', data)
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -34,7 +35,7 @@ function RenderMovie({ fetchType, title }) {
         };
         console.log(fetchType)
         fetchData();
-    }, [currentPage, fetchType, title]);
+    }, [currentPage, fetchType, title, resetSearchStatus]);
 
     const nextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);

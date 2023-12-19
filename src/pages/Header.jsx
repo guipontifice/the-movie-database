@@ -5,21 +5,30 @@ function Header() {
     const [title, setTitle] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [showFavoritesOnly, setShowFavoritesOnly] = useState();
+    const [searchStatus, setSearchStatus] = useState('');
+
     const handleToggleFavorites = () => {
-        setShowFavoritesOnly(!showFavoritesOnly);
+        setShowFavoritesOnly(prevState => !prevState);
     }
     const renderComponent = () => {
-        if (title) {
-            return <div className='bg-purple'><RenderMovie fetchType={'name'} title={title} /></div>;
+        if (searchStatus === 'searching') {
+            console.log(searchStatus)
+            return <div className='bg-purple'><RenderMovie fetchType={'name'} title={title} resetSearchStatus={() => setSearchStatus('')} /></div>;
         } else if (!showFavoritesOnly) {
-            return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} /></div>;
+            return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} resetSearchStatus={() => setSearchStatus('')} /></div>;
         } else if (showFavoritesOnly) {
-            return <div className='bg-purple'><RenderMovie fetchType={'favorites'} /></div>;
+            return <div className='bg-purple'><RenderMovie fetchType={'favorites'} resetSearchStatus={() => setSearchStatus('')} /></div>;
         }
     };
     const handleSubmit = (event) => {
         event.preventDefault()
-        setTitle(`${event.target.elements.searchTerm.value}`);
+        if (searchTerm) {
+            setTitle(`${searchTerm}`);
+            setSearchStatus('searching')
+        } else {
+            setTitle('');
+            setSearchStatus('')
+        }
     }
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
