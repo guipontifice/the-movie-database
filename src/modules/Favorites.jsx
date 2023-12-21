@@ -1,5 +1,5 @@
 import RenderMovie from "./RenderMovie";
-import apiKey from "../assets/environment/apiKey";
+import apiKey from "../data/apiKey";
 import { useState, useEffect } from "react";
 
 

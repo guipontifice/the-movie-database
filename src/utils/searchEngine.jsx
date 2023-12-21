@@ -1,4 +1,4 @@
-import apiKey from "../assets/environment/apiKey";
+import apiKey from "../data/apiKey";
 
 async function searchEngine(movieTitle) {
   const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey()}&query=${movieTitle}&language=en-US&page=1`;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import apiKey from "../assets/environment/apiKey";
+import apiKey from "../data/apiKey";
 import handleSubmit from "../pages/Header";
 // https://api.themoviedb.org/3/movie/upcoming?api_key={API_KEY}
 
@@ -42,8 +42,8 @@ async function SearchTitle(movieTitle, currentPage) {
         return [];
     }
 }
-// https://api.themoviedb.org/3/genre/movie/list?api_key=7da6086803a787193c9595415c04178b&language=en-US&page=1
-async function SearchGender(currentPage) {
+// https://api.themoviedb.org/3/genre/movie/12?api_key=7da6086803a787193c9595415c04178b&language=en-US&page=1
+async function SearchGender(id, currentPage) {
     try {
         const apiUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey()}language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
@@ -55,4 +55,4 @@ async function SearchGender(currentPage) {
         return [];
     }
 }
-export { SearchMovie, SearchTitle }
+export { SearchMovie, SearchTitle, SearchGender }
