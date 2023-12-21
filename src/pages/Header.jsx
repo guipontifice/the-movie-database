@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import RenderMovie from '../modules/RenderMovie';
 import { SearchTitle } from '../utils/SearchMovie';
 import FadeMenu from '../components/FadeMenu'
@@ -19,7 +19,10 @@ function Header() {
             return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} resetSearchStatus={() => setSearchStatus('')} /></div>;
         } else if (showFavoritesOnly) {
             return <div className='bg-purple'><RenderMovie fetchType={'favorites'} resetSearchStatus={() => setSearchStatus('')} /></div>;
-        } 
+        } else if (searchStatus === 'genre') {
+            console.log('id: ', handleGenreSelection)
+            return <div className='bg-purple'><RenderMovie fetchType={'genre'} title={handleGenreSelection} genreId={handleGenreSelection} resetSearchStatus={() => setSearchStatus('')} /></div>
+        }
     };
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -35,10 +38,15 @@ function Header() {
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }
+    const handleGenreSelection = (genreSelection) => {
+        console.log('genreSelection:', genreSelection);
+        setSearchStatus('genre')
+        return genreSelection
+    }
     return (
         <div className='bg-purple border border-purple h-40 text-white'>
             <header className='h-full'>
-                <div classNam   e='flex justify-center m-2'>
+                <div className='flex justify-center m-2'>
                     <h1 className='font-bold text-2xl' onClick={handleSubmit}>The Movie Database</h1>
                 </div>
                 <div className='flex justify-center m-5'>
@@ -60,7 +68,7 @@ function Header() {
                     <p className='flex justify-center mx-2 hover:border rounded p-1 border-gray hover:border-white' onClick={handleToggleFavorites}>{showFavoritesOnly ? 'Show Popular Movies' : 'Only show my favorite movies'}</p>
                 </div>
                 <div className='ml-20 mx-5'>
-                    {FadeMenu()}
+                    <FadeMenu genreSelection={handleGenreSelection} />
                 </div>
             </header>
             {renderComponent(title)}

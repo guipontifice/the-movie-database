@@ -5,11 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import genreParam from '../data/genreParam.json'
 import { useState } from 'react';
+import { SearchGender } from '../utils/SearchMovie';
 
-export default function FadeMenu() {
+export default function FadeMenu({ genreSelection }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,8 +17,8 @@ export default function FadeMenu() {
   const handleClose = (selectedGenre) => {
     console.log(selectedGenre.id)
     const id = selectedGenre.id
-    return id
     setAnchorEl(null);
+    genreSelection(id)
   };
 
   return (

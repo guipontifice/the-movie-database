@@ -42,10 +42,10 @@ async function SearchTitle(movieTitle, currentPage) {
         return [];
     }
 }
-// https://api.themoviedb.org/3/genre/movie/12?api_key=7da6086803a787193c9595415c04178b&language=en-US&page=1
 async function SearchGender(id, currentPage) {
+    console.log('SearchGender')
     try {
-        const apiUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey()}language=en-US&page=${currentPage}`;
+        const apiUrl = `http://api.themoviedb.org/3/genre/${id}/movies?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
 

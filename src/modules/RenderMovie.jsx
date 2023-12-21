@@ -5,7 +5,7 @@ import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite, searchMovieId } from './Favorites'
 import { SearchMovie, SearchTitle } from '../utils/SearchMovie'
 
-function RenderMovie({ fetchType, title, resetSearchStatus }) {
+function RenderMovie({ fetchType, title, genreId, resetSearchStatus }) {
     const isFavorited = useMemo(() => checkFavorite(), [])
     const [movieData, setMovieData] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,8 +23,9 @@ function RenderMovie({ fetchType, title, resetSearchStatus }) {
                     data = await Promise.all(fetchDataArray);
                 } else if (fetchType === 'popular') {
                     data = await SearchMovie(currentPage);
-                } else if (fetchType === 'gender') {
-                    data = await SearchGender()
+                } else if (fetchType === 'genre') {
+                    console.log('We are here')
+                    data = await SearchGender(genreId, currentPage)
                 }
                 // console.log('API URL:', data);
                 setMovieData(data);
@@ -35,7 +36,7 @@ function RenderMovie({ fetchType, title, resetSearchStatus }) {
             }
         };
         fetchData();
-    }, [currentPage, fetchType, title, resetSearchStatus]);
+    }, [currentPage, fetchType, title, genreId, resetSearchStatus]);
 
     const nextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
