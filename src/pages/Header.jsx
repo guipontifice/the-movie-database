@@ -8,20 +8,29 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showFavoritesOnly, setShowFavoritesOnly] = useState();
     const [searchStatus, setSearchStatus] = useState('');
-
+    const [genreId, setGenreId] = useState('');
+    useEffect(() => {
+        if (searchStatus === 'genre') {
+            console.log('searchStatus: ', searchStatus)
+        }
+    }, [searchStatus])
     const handleToggleFavorites = () => {
+        setSearchStatus('')
         setShowFavoritesOnly(prevState => !prevState);
     }
     const renderComponent = () => {
         if (searchStatus === 'searching') {
             return <div className='bg-purple'><RenderMovie fetchType={'name'} title={title} resetSearchStatus={() => setSearchStatus('searching')} /></div>;
-        } else if (!showFavoritesOnly) {
-            return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} resetSearchStatus={() => setSearchStatus('')} /></div>;
-        } else if (showFavoritesOnly) {
-            return <div className='bg-purple'><RenderMovie fetchType={'favorites'} resetSearchStatus={() => setSearchStatus('')} /></div>;
         } else if (searchStatus === 'genre') {
-            console.log('id: ', handleGenreSelection)
-            return <div className='bg-purple'><RenderMovie fetchType={'genre'} title={handleGenreSelection} genreId={handleGenreSelection} resetSearchStatus={() => setSearchStatus('')} /></div>
+            console.log('We are here')
+            return <div className='bg-purple'><RenderMovie fetchType={'genre'} title={genreId} genreId={genreId} resetSearchStatus={() => setSearchStatus('genre')} /></div>
+        }
+        if (searchStatus !== 'searching' && searchStatus !== 'genre') {
+            if (!showFavoritesOnly) {
+                return <div className='bg-purple min-w-full'><RenderMovie fetchType={'popular'} resetSearchStatus={() => setSearchStatus('')} /></div>;
+            } else if (showFavoritesOnly) {
+                return <div className='bg-purple'><RenderMovie fetchType={'favorites'} resetSearchStatus={() => setSearchStatus('')} /></div>;
+            }
         }
     };
     const handleSubmit = (event) => {
@@ -34,15 +43,18 @@ function Header() {
             setSearchStatus('')
             console.log('Second SearchStatus', searchStatus)
         }
+        setSearchTerm('')
     }
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
     }
     const handleGenreSelection = (genreSelection) => {
+        setSearchStatus('genre');
         console.log('genreSelection:', genreSelection);
-        setSearchStatus('genre')
+        setGenreId(genreSelection)
         return genreSelection
     }
+
     return (
         <div className='bg-purple border border-purple h-40 text-white'>
             <header className='h-full'>
@@ -71,7 +83,7 @@ function Header() {
                     <FadeMenu genreSelection={handleGenreSelection} />
                 </div>
             </header>
-            {renderComponent(title)}
+            {renderComponent()}
         </div>
     )
 }

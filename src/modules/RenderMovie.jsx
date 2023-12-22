@@ -3,7 +3,7 @@ import heartImg from '../assets/images/heart.svg'
 import heartFillImg from '../assets/images/heart-fill.svg'
 import starImg from '../assets/images/star.png'
 import { getFavoritedMovies, checkFavorite, searchMovieId } from './Favorites'
-import { SearchMovie, SearchTitle } from '../utils/SearchMovie'
+import { SearchMovie, SearchTitle, SearchGender } from '../utils/SearchMovie'
 
 function RenderMovie({ fetchType, title, genreId, resetSearchStatus }) {
     const isFavorited = useMemo(() => checkFavorite(), [])
@@ -30,6 +30,7 @@ function RenderMovie({ fetchType, title, genreId, resetSearchStatus }) {
                 // console.log('API URL:', data);
                 setMovieData(data);
                 resetSearchStatus();
+                console.log(fetchType)
                 // console.log('MovieData: ', data)
             } catch (error) {
                 console.error('Error fetching data:', error);
