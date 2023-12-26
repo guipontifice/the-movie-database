@@ -1,5 +1,5 @@
 {
-  "homepage": "https://guipontifice.github.io/movie-database",
+  "homepage": "https://guipontifice.github.io/the-movie-database",
   "name": "the-movie-database",
   "version": "0.0.0",
   "type": "module",
@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.11.0",
     "@icon/ionicons": "^5.4.0-alpha.0",
     "@mui/material": "^5.15.1",
+    "gh-pages": "^6.1.1",
     "ionicons": "^7.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
