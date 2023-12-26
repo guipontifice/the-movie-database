@@ -1,7 +1,8 @@
 import RenderMovie from "./RenderMovie";
 import apiKey from "../data/apiKey";
 import { useState, useEffect } from "react";
-
+import favoritedImg from '../../public/images/heart-fill.svg'
+import notFavoritedImg from '../../public/images/heart.svg'
 
 async function searchMovieId(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey()}&language=en-US`;
@@ -15,8 +16,8 @@ function getFavoritedMovies(event, movie) {
     console.log('We are here')
     console.log(event.target)
     const favoriteState = {
-        favorited: 'http://localhost:3005/src/assets/images/heart-fill.svg',
-        notFavorited: 'http://localhost:3005/src/assets/images/heart.svg'
+        favorited: favoritedImg,
+        notFavorited: notFavoritedImg
     };
     if (event.target.src === favoriteState.notFavorited) {
         event.target.src = favoriteState.favorited;
