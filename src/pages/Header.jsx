@@ -4,6 +4,7 @@ import { SearchTitle } from '../utils/SearchMovie';
 import FadeMenu from '../components/FadeMenu'
 
 function Header() {
+<<<<<<< HEAD
     const [title, setTitle] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [showFavoritesOnly, setShowFavoritesOnly] = useState();
@@ -17,6 +18,12 @@ function Header() {
     const handleToggleFavorites = () => {
         setSearchStatus('')
         setShowFavoritesOnly(prevState => !prevState);
+=======
+    const [movieData, setMovieData] = useState([]);
+
+    const handleRadioClick = () => {
+        inputBox(setMovieData)
+>>>>>>> backup_branch
     }
     const renderComponent = () => {
         if (searchStatus === 'searching') {
