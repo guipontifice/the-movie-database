@@ -1,3 +1,4 @@
+import React from "react";
 import apiKey from "../data/apiKey";
 
 async function searchEngine(movieTitle) {

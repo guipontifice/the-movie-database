@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import RenderMovie from "./RenderMovie";
 import apiKey from "../data/apiKey";
-import { useState, useEffect } from "react";
 import favoritedImg from '../../public/images/heart-fill.svg'
 import notFavoritedImg from '../../public/images/heart.svg'
 
