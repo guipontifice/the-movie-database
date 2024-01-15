@@ -7,7 +7,7 @@ function App() {
     <div className='bg-purple min-h-screen'>
       <Router>
         <Routes>
-          <Route path='/movie-database/' element={<Header />} />
+          <Route path='/movie-database' element={<Header />} />
         </Routes>
       </Router >
     </div>
