@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/movie-database',
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    target: 'es2015',
   }
 })
