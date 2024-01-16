@@ -45,7 +45,7 @@ async function SearchTitle(movieTitle, currentPage) {
 async function SearchGender(id, currentPage) {
     console.log('SearchGender')
     try {
-        const apiUrl = `http://api.themoviedb.org/3/genre/${id}/movies?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
+        const apiUrl = `https://api.themoviedb.org/3/genre/${id}/movies?api_key=${apiKey()}&language=en-US&page=${currentPage}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
         console.log(apiUrl)
